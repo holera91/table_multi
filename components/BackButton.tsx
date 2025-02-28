@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import { IconSymbol } from './ui/IconSymbol';
+import { Ionicons } from '@expo/vector-icons';
 
 export function BackButton() {
   return (
@@ -8,10 +8,10 @@ export function BackButton() {
       style={styles.backButton}
       onPress={() => router.back()}
     >
-      <IconSymbol 
-        name="chevron.left" 
+      <Ionicons 
+        name="chevron-back" 
         size={24} 
-        color="#8A2BE2" // Фиолетовый
+        color="#8A2BE2"
       />
     </TouchableOpacity>
   );
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 90,
     left: 20,
-    backgroundColor: '#FFD700', // Желтый
+    backgroundColor: '#FFD700',
     borderRadius: 20,
     width: 40,
     height: 40,

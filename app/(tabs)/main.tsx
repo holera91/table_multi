@@ -1,4 +1,4 @@
-import { StyleSheet, View, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, View, Dimensions, ImageBackground, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import LottieView from 'lottie-react-native';
 
@@ -19,16 +19,32 @@ export default function MainScreen() {
       style={styles.backgroundImage}
       resizeMode="cover"
     >
-      <BlurView intensity={50} style={StyleSheet.absoluteFill} />
+      {Platform.OS === 'web' ? (
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(255,255,255,0.7)' }]} />
+      ) : (
+        <BlurView intensity={50} style={StyleSheet.absoluteFill} />
+      )}
       <ThemedView style={styles.container}>
         <ThemedText style={styles.title}>Вчимо Таблицю Множення разом!</ThemedText>
         
-        <LottieView
-          source={require('@/assets/animations/math.json')}
-          autoPlay
-          loop
-          style={styles.animation}
-        />
+        {Platform.OS === 'web' ? (
+          <iframe
+            src="https://lottie.host/embed/6667a089-b55a-49e9-be36-3fb82142e693/1Fq8Zrv4qj.json"
+            style={{
+              width: width * 0.7,
+              height: width * 0.7,
+              border: 'none',
+              background: 'transparent',
+            }}
+          />
+        ) : (
+          <LottieView
+            source={require('@/assets/animations/math.json')}
+            autoPlay
+            loop
+            style={styles.animation}
+          />
+        )}
         
         <View style={styles.buttonContainer}>
           <NavigationButton title="Вчимось" route="/(tabs)/studie" />
