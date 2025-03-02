@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -20,14 +20,18 @@ export function BackButton() {
 const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
-    top: 90,
-    left: 20,
-    backgroundColor: '#FFD700',
+    left: '3%',
     borderRadius: 20,
     width: 40,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1,
+    ...(Platform.OS === 'web' ? {
+      backgroundColor: '#FFD700',
+      position: 'absolute',
+      left: -85,
+    } : {
+      backgroundColor: '#FFD700', // Желтый фон для мобильной версии
+    }),
   },
-}); 
+});
