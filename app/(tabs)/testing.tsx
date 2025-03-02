@@ -3,6 +3,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import { BackButton } from '@/components/BackButton';
 import { ThemedView } from '@/components/ThemedView';
+import { CommonStyles } from '@/constants/Styles';
 
 export default function TestingScreen() {
   const renderBlock = (number: number) => (
@@ -16,43 +17,26 @@ export default function TestingScreen() {
   );
 
   return (
-    <ThemedView style={styles.container}>
-      <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>Тестування</Text>
-      </View>
-      <View style={styles.emptySpace} />
-      
-      <View style={styles.emptySpace} />
-    </ThemedView>
+    <View style={CommonStyles.webWrapper}>
+      <ThemedView style={CommonStyles.container}>
+        <View style={CommonStyles.header}>
+          <BackButton />
+          <Text style={CommonStyles.headerTitle}>Тестування</Text>
+        </View>
+        <View style={styles.emptySpace} />
+        <View style={styles.emptySpace} />
+      </ThemedView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 7,
-    ...(Platform.OS === 'web' && {
-      width: 375,
-      height: 667,
-      margin: 'auto',
-      paddingTop: 50,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }),
-  },
+  container: CommonStyles.container,
+  header: CommonStyles.header,
   emptySpace: {
     flex: 1,
     backgroundColor: 'violet', 
     ...(Platform.OS === 'web' ? {} : { backgroundColor: 'blue' }),// Фиолетовый цвет для пустого пространства
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    ...(Platform.OS === 'web' ? {} : { top: 90 }),
   },
   title: {
     fontSize: 26,

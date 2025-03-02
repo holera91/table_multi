@@ -1,59 +1,52 @@
-import { StyleSheet, View, Text, Platform } from 'react-native';
+import { StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 import { BackButton } from '@/components/BackButton';
 import { ThemedView } from '@/components/ThemedView';
+import { CommonStyles } from '@/constants/Styles';
 
 export default function StudieScreen() {
   const renderBlock = (number: number) => (
-    <View style={styles.block} key={number}>
+    <TouchableOpacity 
+      style={styles.block} 
+      key={number}
+      onPress={() => router.push({
+        pathname: '/(tabs)/prepare',
+        params: { number }
+      })}
+    >
       <Text style={styles.number}>{number}</Text>
       <View style={styles.stars}>
         <FontAwesome name="star" size={24} color="gold" />
         <FontAwesome name="star" size={24} color="gold" />
         <FontAwesome name="star" size={24} color="gold" />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
-    <ThemedView style={styles.container}>
-      <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>Обери число</Text>
-      </View>
-      <View style={styles.emptySpace} />
-      <View style={styles.grid}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(renderBlock)}
-      </View>
-      <View style={styles.emptySpace} />
-    </ThemedView>
+    <View style={CommonStyles.webWrapper}>
+      <ThemedView style={CommonStyles.container}>
+        <View style={CommonStyles.header}>
+          <BackButton />
+          <Text style={CommonStyles.headerTitle}>Обери число</Text>
+        </View>
+        <View style={styles.emptySpace} />
+        <View style={styles.grid}>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(renderBlock)}
+        </View>
+        <View style={styles.emptySpace} />
+      </ThemedView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 7,
-    ...(Platform.OS === 'web' && {
-      width: 375,
-      height: 667,
-      margin: 'auto',
-      paddingTop: 50,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }),
-  },
+  container: CommonStyles.container,
+  header: CommonStyles.header,
   emptySpace: {
     flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    ...(Platform.OS === 'web' ? {} : { top: 90 }),
   },
   title: {
     fontSize: 26,

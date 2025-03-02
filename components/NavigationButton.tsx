@@ -1,9 +1,7 @@
-import { StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 
 import { ThemedText } from './ThemedText';
-
-const { width } = Dimensions.get('window');
 
 type RouteType = '/(tabs)/main' | '/(tabs)/studie' | '/(tabs)/testing';
 
@@ -23,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700',
     padding: 15,
     borderRadius: 8,
-    width: width * 0.35,
+    width: 160,
     alignItems: 'center',
   },
   buttonText: {

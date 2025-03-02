@@ -7,6 +7,8 @@ export default function TabLayout() {
       <Stack.Screen name="main" />
       <Stack.Screen name="studie" />
       <Stack.Screen name="testing" />
+      <Stack.Screen name="game" />
+      <Stack.Screen name="prepare" />
     </Stack>
   );
 }
