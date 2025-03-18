@@ -66,6 +66,16 @@ export default function StudieScreen() {
           </View>
         </View>
 
+        {/* New Test Button */}
+        <TouchableOpacity 
+          style={styles.testButton}
+          onPress={() => router.push('/(tabs)/testTemplate')}
+        >
+          <ThemedText style={styles.testButtonText}>
+            Тест
+          </ThemedText>
+        </TouchableOpacity>
+
         {/* Numbers Grid */}
         <View style={styles.numbersGrid}>
           <View style={styles.numbersContainer}>
@@ -150,6 +160,20 @@ const styles = StyleSheet.create({
   },
   toggleTextActive: {
     color: '#FFD700',
+  },
+  testButton: {
+    backgroundColor: '#FFD700',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  testButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#8A2BE2',
   },
   numbersGrid: {
     flex: 1,
