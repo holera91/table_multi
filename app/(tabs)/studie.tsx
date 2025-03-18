@@ -74,7 +74,7 @@ export default function StudieScreen() {
                 key={num} 
                 style={styles.numberContainer}
                 onPress={() => router.push({
-                  pathname: '/game',
+                  pathname: '/ready',
                   params: { number: num, operation }
                 })}
               >
