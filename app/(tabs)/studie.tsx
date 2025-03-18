@@ -27,7 +27,7 @@ export default function StudieScreen() {
         <View style={styles.headerRow}>
           <TouchableOpacity 
             style={styles.backButton}
-            onPress={() => router.back()}
+            onPress={() => router.push('/')}
           >
             <ThemedText style={styles.backButtonText}>
               Назад
@@ -70,14 +70,21 @@ export default function StudieScreen() {
         <View style={styles.numbersGrid}>
           <View style={styles.numbersContainer}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-              <View key={num} style={styles.numberContainer}>
+              <TouchableOpacity 
+                key={num} 
+                style={styles.numberContainer}
+                onPress={() => router.push({
+                  pathname: '/game',
+                  params: { number: num, operation }
+                })}
+              >
                 <ThemedText style={styles.number}>{num}</ThemedText>
                 <View style={styles.starsContainer}>
                   {[1, 2, 3].map((star) => (
                     <ThemedText key={star} style={styles.star}>⭐</ThemedText>
                   ))}
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </View>
@@ -94,7 +101,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 60,
+    paddingTop: 80,
     paddingHorizontal: 10,
     backgroundColor: 'transparent',
   },
@@ -125,7 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 5,
     width: '70%',
-    marginLeft: '10%',
+    marginLeft: '5%',
   },
   toggleButton: {
     flex: 1,
