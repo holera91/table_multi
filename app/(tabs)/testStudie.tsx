@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, ImageBackground, TouchableOpacity } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { router } from 'expo-router';
 
 export default function TestTemplate() {
+  const [operation, setOperation] = useState<'multiplication' | 'division'>('multiplication');
+
   return (
     <ImageBackground 
       source={require('@/assets/images/background.png')}
@@ -16,16 +18,42 @@ export default function TestTemplate() {
           <TouchableOpacity style={styles.backButton} onPress={() => router.push('/')}>
             <ThemedText style={styles.buttonText}>Назад</ThemedText>
           </TouchableOpacity>
-          <View style={styles.textContainer}>
-            <ThemedText style={styles.textStyle}>Цей текст у верхньому контейнері</ThemedText>
+          <View style={styles.toggleContainer}>
+            <TouchableOpacity 
+              style={[
+                styles.toggleButton,
+                operation === 'multiplication' && styles.toggleButtonActive
+              ]}
+              onPress={() => setOperation('multiplication')}
+            >
+              <ThemedText style={[
+                styles.toggleText,
+                operation === 'multiplication' && styles.toggleTextActive
+              ]}>
+                Множення
+              </ThemedText>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.toggleButton,
+                operation === 'division' && styles.toggleButtonActive
+              ]}
+              onPress={() => setOperation('division')}
+            >
+              <ThemedText style={[
+                styles.toggleText,
+                operation === 'division' && styles.toggleTextActive
+              ]}>
+                Ділення
+              </ThemedText>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.middleContainer}>
           <ThemedText>Середній контейнер</ThemedText>
         </View>
-        <View style={styles.bottomContainer}>
-          <ThemedText>Нижній контейнер</ThemedText>
-        </View>
+        
       </View>
     </ImageBackground>
   );
@@ -48,7 +76,7 @@ const styles = StyleSheet.create({
     height: '7%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFB6C1',
+    backgroundColor: 'transparent',
     marginTop: '1%',
   },
   backButton: {
@@ -68,22 +96,31 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  textContainer: {
+  toggleContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFD700',
-    padding: 5,
+    backgroundColor: '#FFB6C1',
     borderRadius: 25,
-    height: '100%',
-    width: '50%',
-    marginEnd: '25%',
-    maxWidth: '70%',
+    padding: 5,
+    width: '54%',
+    marginEnd: '22%',
   },
-  textStyle: {
-    color: '#800080',
+  toggleButton: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderRadius: 20,
+  },
+  toggleButtonActive: {
+    backgroundColor: '#8A2BE2',
+  },
+  toggleText: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
+    color: '#8A2BE2',
+  },
+  toggleTextActive: {
+    color: '#FFD700',
   },
   middleContainer: {
     width: '95%',
@@ -92,13 +129,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#98FB98',
     marginVertical: '3%',
-  },
-  bottomContainer: {
-    width: '95%',
-    height: '6%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFD700',
-    marginBottom: '3%',
   },
 }); 

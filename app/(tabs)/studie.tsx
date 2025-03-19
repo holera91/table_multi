@@ -69,7 +69,7 @@ export default function StudieScreen() {
         {/* New Test Button */}
         <TouchableOpacity 
           style={styles.testButton}
-          onPress={() => router.push('/(tabs)/testTemplate')}
+          onPress={() => router.push('/(tabs)/testStudie')}
         >
           <ThemedText style={styles.testButtonText}>
             Тест
