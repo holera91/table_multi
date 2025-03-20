@@ -51,7 +51,27 @@ export default function TestTemplate() {
           </View>
         </View>
         <View style={styles.middleContainer}>
-          <ThemedText>Середній контейнер</ThemedText>
+          <View style={styles.numbersContainer}>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+              <TouchableOpacity 
+                key={num} 
+                style={styles.numberContainer}
+                onPress={() => router.push({
+                  pathname: '/ready',
+                  params: { number: num, operation }
+                })}
+              >
+                <ThemedText style={styles.number}>{num}</ThemedText>
+                <View style={styles.starsWrapper}>
+                  <View style={styles.starsContainer}>
+                    {[1, 2, 3].map((star) => (
+                      <ThemedText key={star} style={styles.star}>⭐</ThemedText>
+                    ))}
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
         
       </View>
@@ -123,11 +143,70 @@ const styles = StyleSheet.create({
     color: '#FFD700',
   },
   middleContainer: {
-    width: '95%',
+    width: '90%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#98FB98',
+    backgroundColor: 'transparent',
     marginVertical: '3%',
+    borderRadius: 15,
+  },
+  numbersContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    gap: 15,
+    paddingHorizontal: 5,
+  },
+  numberContainer: {
+    alignItems: 'center',
+    width: '28%',
+    aspectRatio: 1,
+    backgroundColor: '#FFD700',
+    borderRadius: 15,
+    borderWidth: 3,
+    borderColor: '#8A2BE2',
+    justifyContent: 'flex-end',
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginBottom: 15,
+  },
+  number: {
+    fontSize: 76,
+    fontWeight: 'bold',
+    color: '#8A2BE2',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+    lineHeight: 76,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    includeFontPadding: false,
+  },
+  starsWrapper: {
+    marginTop: 8,
+    marginBottom: 2,
+    borderWidth: 1,
+    borderColor: '#8A2BE2',
+    borderRadius: 10,
+    padding: 5,
+    alignItems: 'center',
+    backgroundColor: '#D3D3D3',
+  },
+  starsContainer: {
+    flexDirection: 'row',
+    marginTop: 0,
+  },
+  star: {
+    fontSize: 24,
+    opacity: 0.5,
   },
 }); 
