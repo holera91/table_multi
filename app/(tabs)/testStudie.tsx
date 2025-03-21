@@ -56,10 +56,7 @@ export default function TestTemplate() {
               <TouchableOpacity 
                 key={num} 
                 style={styles.numberContainer}
-                onPress={() => router.push({
-                  pathname: '/ready',
-                  params: { number: num, operation }
-                })}
+                onPress={() => router.push('/testReady')}
               >
                 <ThemedText style={styles.number}>{num}</ThemedText>
                 <View style={styles.starsWrapper}>
@@ -111,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#800080',
+    color: '#8A2BE2',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
