@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const buttonFontSize = Math.min(screenWidth, screenHeight) * 0.04;
+const textFontSize = Math.min(screenWidth, screenHeight) * 0.045;
+const timerFontSize = Math.min(screenWidth, screenHeight) * 0.12;
+const tableFontSize = Math.min(screenWidth, screenHeight) * 0.06;
 
 export default function TestTemplate() {
-  const [countdown, setCountdown] = useState(9);
+  const [countdown, setCountdown] = useState(15);
+  const [isTimerActive, setIsTimerActive] = useState(true);
+  const params = useLocalSearchParams();
+  const number = Number(params.number);
+  const operation = params.operation as 'multiplication' | 'division';
 
   useEffect(() => {
+    if (!isTimerActive) return;
+
     const timer = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
           clearInterval(timer);
+          setIsTimerActive(false);
+          router.push({
+            pathname: '/testGame',
+            params: { number, operation }
+          });
           return 0;
         }
         return prev - 1;
@@ -19,7 +36,29 @@ export default function TestTemplate() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isTimerActive]);
+
+  const generateTable = () => {
+    const rows = [];
+    for (let i = 1; i <= 9; i++) {
+      if (operation === 'multiplication') {
+        rows.push(`${number} × ${i} = ${number * i}`);
+      } else {
+        rows.push(`${number * i} ÷ ${number} = ${i}`);
+      }
+    }
+    return rows;
+  };
+
+  const tableRows = generateTable();
+
+  const handleReadyPress = () => {
+    setIsTimerActive(false);
+    router.push({
+      pathname: '/testGame',
+      params: { number, operation }
+    });
+  };
 
   return (
     <ImageBackground 
@@ -32,18 +71,23 @@ export default function TestTemplate() {
           <TouchableOpacity style={styles.backButton} onPress={() => router.push('/')}>
             <ThemedText style={styles.buttonText}>Назад</ThemedText>
           </TouchableOpacity>
+        </View>
+        <View style={styles.middleContainer}>
           <View style={styles.textContainer}>
             <ThemedText style={styles.textStyle}>Повторимо табличку</ThemedText>
           </View>
-        </View>
-        <View style={styles.middleContainer}>
           <View style={styles.yellowContainer}>
             <ThemedText style={styles.timerText}>{countdown}</ThemedText>
           </View>
+          <View style={styles.tableContainer}>
+            {tableRows.map((row, index) => (
+              <ThemedText key={index} style={styles.tableText}>{row}</ThemedText>
+            ))}
+          </View>
         </View>
-        <View style={styles.bottomContainer}>
-          <ThemedText>Готово!</ThemedText>
-        </View>
+        <TouchableOpacity style={styles.bottomContainer} onPress={handleReadyPress}>
+          <ThemedText style={styles.buttonText}>Готово!</ThemedText>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -57,32 +101,33 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: '8%',
+    marginTop: '12%',
+    justifyContent: 'space-between',
+    paddingBottom: '8%',
   },
   topContainer: {
-    width: '95%',
+    width: '100%',
     height: '7%',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    marginTop: '1%',
+    marginBottom: '2%',
   },
   backButton: {
     backgroundColor: '#FFD700',
-    paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingVertical: '1%',
+    paddingHorizontal: '5%',
     borderRadius: 20,
     marginRight: 'auto',
-    width: '12%',
+    width: '25%',
     height: '60%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonText: {
     color: '#8A2BE2',
-    fontSize: 16,
+    fontSize: buttonFontSize,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -90,40 +135,59 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFB6C1',
-    padding: 5,
+    padding: '1%',
     borderRadius: 25,
-    height: '100%',
-    width: '50%',
-    marginEnd: '25%',
-    maxWidth: '70%',
+    height: '10%',
+    width: '100%',
+    marginBottom: '5%',
   },
   textStyle: {
     color: '#8A2BE2',
-    fontSize: 20,
+    fontSize: textFontSize,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   middleContainer: {
-    width: '95%',
-    height: '75%',
+    flex: 1,
+    width: '90%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#98FB98',
-    marginVertical: '3%',
+    backgroundColor: 'transparent',
+    borderRadius: 15,
+    marginBottom: '2%',
   },
   yellowContainer: {
-    height: '15%',
+    height: '10%',
     width: '100%',
     backgroundColor: '#FFD700',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 15,
+    borderWidth: 3,
+    borderColor: '#8A2BE2',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   timerText: {
-    fontSize: 45,
+    fontSize: timerFontSize,
     color: '#8A2BE2',
     flex: 1,
     textAlign: 'center',
     justifyContent: 'center',
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+    lineHeight: timerFontSize,
+    textAlignVertical: 'center',
+    includeFontPadding: false,
+    paddingVertical: '2%',
   },
   bottomContainer: {
     width: '35%',
@@ -131,7 +195,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFD700',
-    marginBottom: '5%',
     borderRadius: 25,
+    borderWidth: 3,
+    borderColor: '#8A2BE2',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  tableContainer: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#FFB6C1',
+    borderRadius: 15,
+    padding: '3%',
+    marginTop: '5%',
+    justifyContent: 'space-between',
+  },
+  tableText: {
+    fontSize: tableFontSize,
+    color: '#8A2BE2',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 }); 
